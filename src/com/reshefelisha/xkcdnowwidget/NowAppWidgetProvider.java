@@ -32,13 +32,14 @@ public class NowAppWidgetProvider extends AppWidgetProvider{
 	@SuppressLint("SimpleDateFormat")
 	public int getTimeDegree()
 	{
-		DateFormat df = new SimpleDateFormat("hhmm");
+		DateFormat df = new SimpleDateFormat("HHmm");
 		df.setTimeZone(TimeZone.getTimeZone("gmt"));
 		String gmtTime = df.format(new Date());
 		gmtTime = gmtTime.replaceAll("[^0-9]", "");
 		//double seconds = Double.parseDouble(gmtTime.substring(4));
 		double minutes = Double.parseDouble(gmtTime.substring(2,4));
-		double hours = Double.parseDouble(gmtTime.substring(0,2));
+		double hours = Double.parseDouble(gmtTime.substring(0,2))+12;
+		System.out.println(hours);
 		double imgNum = ((minutes) + (hours*60));
 		return (int) Math.floor(imgNum);
 	}
@@ -99,7 +100,7 @@ public class NowAppWidgetProvider extends AppWidgetProvider{
 		RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
 		
 		int t = getTimeDegree();
-		
+		System.out.println("t="+t);
 		/*double s = 1;//1/(((Math.sqrt(2.0)-1)/2)*-1*Math.cos(Math.toRadians(2*t))+((Math.sqrt(2.0)-1)/2) +1); //-((sqrt(2)-1)/2)cos(x)+(sqrt(2)-1)/2+1
 		float f = (float) s;
 		
@@ -113,8 +114,7 @@ public class NowAppWidgetProvider extends AppWidgetProvider{
 		c.drawBitmap(bMapRotate, new Matrix(), null);
 		views.setImageViewBitmap(R.id.nowView, bMapRotate);*/
 		
-		int s = 48 -(t/15);
-		if(s<=0) s=96+s;
+		int s = 96 - (t/15);
 		
 		if(s==1)
 		{
