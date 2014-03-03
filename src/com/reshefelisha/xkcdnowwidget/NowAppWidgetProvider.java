@@ -38,7 +38,9 @@ public class NowAppWidgetProvider extends AppWidgetProvider{
 		gmtTime = gmtTime.replaceAll("[^0-9]", "");
 		//double seconds = Double.parseDouble(gmtTime.substring(4));
 		double minutes = Double.parseDouble(gmtTime.substring(2,4));
-		double hours = Double.parseDouble(gmtTime.substring(0,2))+12;
+		double hours = Double.parseDouble(gmtTime.substring(0,2));
+		if(hours>=12) hours -=12;
+		else if(hours<12) hours+=12;
 		System.out.println(hours);
 		double imgNum = ((minutes) + (hours*60));
 		return (int) Math.floor(imgNum);
