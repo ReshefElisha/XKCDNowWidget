@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <Preference
+        android:key="pref_about"
+        android:selectable="false"
+        android:title="Thank you for installing XKCD Now Widget"
+        android:summary="@string/about_text" />
+    
+    <CheckBoxPreference
+        android:key="pref_dst"
+        android:title="@string/pref_dst"
+        android:summary="@string/pref_dst_summ"
+        android:defaultValue="false" />
+    
+
+</PreferenceScreen>

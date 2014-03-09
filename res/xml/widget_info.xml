@@ -3,5 +3,7 @@
     android:minWidth="294dp"
     android:minHeight="294dp"
     android:updatePeriodMillis="1800000"
-    android:initialLayout="@layout/widget" android:resizeMode="none">
+    android:initialLayout="@layout/widget"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="keyguard|home_screen">
 </appwidget-provider>

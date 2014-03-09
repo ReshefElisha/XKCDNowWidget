@@ -4,6 +4,11 @@
     <string name="app_name">XKCD Now Widget</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_nowwidget">NOWWidget</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="about_text">Add the widget like any other normal android widget. 
+        \nThis widget shows the current time around the globe. To read it, simply find your location and compare its location to the outside ring. The outside ring also shows when business and daylight hours and gives you a reminder of when it is proper to call someone in a certain location.
+        \nThis widget is a port of Randall Munroe\'s www.xkcd.com/now and was created by Reshef Elisha</string>
+    <string name="pref_dst">Turn on DST</string>
+    <string name="pref_dst_summ">When turned on the whole globe turns by 1 hour forward. It will put your location in the correct time, but some other locations might be wrong. The clock updates within two minutes of setting this checkbox.</string>
+    <string name="now_wallpaper">XKCD Now Widget Wallpaper</string>
 
 </resources>

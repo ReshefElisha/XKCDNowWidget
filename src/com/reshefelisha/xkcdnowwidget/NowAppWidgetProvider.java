@@ -14,17 +14,22 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 public class NowAppWidgetProvider extends AppWidgetProvider{
+	
+	SharedPreferences sharedPrefs;
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		final int N = appWidgetIds.length;		
+		final int N = appWidgetIds.length;
+		Log.d("CONTEXT: ", context+"");
+		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 		for (int i = 0; i < N; i++) {
 			int appWidgetId = appWidgetIds[i];
-			
 			updateAppWidget(context, appWidgetManager, appWidgetId);
 		}
 	}
@@ -36,11 +41,16 @@ public class NowAppWidgetProvider extends AppWidgetProvider{
 		df.setTimeZone(TimeZone.getTimeZone("gmt"));
 		String gmtTime = df.format(new Date());
 		gmtTime = gmtTime.replaceAll("[^0-9]", "");
-		//double seconds = Double.parseDouble(gmtTime.substring(4));
 		double minutes = Double.parseDouble(gmtTime.substring(2,4));
 		double hours = Double.parseDouble(gmtTime.substring(0,2));
 		if(hours>=12) hours -=12;
 		else if(hours<12) hours+=12;
+		
+		boolean isAppDST = TimeZone.getTimeZone("gmt").inDaylightTime(new Date());
+		boolean isUserDST = sharedPrefs.getBoolean("pref_dst", false);
+		if(!isAppDST && isUserDST){ hours += 1; }
+		else if(isAppDST && !isUserDST) {hours -= 1;}		
+		
 		System.out.println(hours);
 		double imgNum = ((minutes) + (hours*60));
 		return (int) Math.floor(imgNum);
@@ -80,6 +90,8 @@ public class NowAppWidgetProvider extends AppWidgetProvider{
 		super.onReceive(context, intent);
 		if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
 			Log.d("TIME", "TIME");
+			Log.d("CONTEXT: ", context+"");
+			sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 			ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
 	        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 	        int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
@@ -103,18 +115,6 @@ public class NowAppWidgetProvider extends AppWidgetProvider{
 		
 		int t = getTimeDegree();
 		System.out.println("t="+t);
-		/*double s = 1;//1/(((Math.sqrt(2.0)-1)/2)*-1*Math.cos(Math.toRadians(2*t))+((Math.sqrt(2.0)-1)/2) +1); //-((sqrt(2)-1)/2)cos(x)+(sqrt(2)-1)/2+1
-		float f = (float) s;
-		
-		Matrix mat = new Matrix();
-		Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.drawable.turningpart);
-		mat.postRotate(t);
-		mat.postScale(f, f);
-		Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0,bMap.getWidth(),bMap.getHeight(), mat, true);
-		Bitmap proxy = Bitmap.createBitmap(bMapRotate.getWidth(), bMapRotate.getHeight(), Config.ARGB_8888);
-		Canvas c = new Canvas(proxy);
-		c.drawBitmap(bMapRotate, new Matrix(), null);
-		views.setImageViewBitmap(R.id.nowView, bMapRotate);*/
 		
 		int s = 96 - (t/15);
 		

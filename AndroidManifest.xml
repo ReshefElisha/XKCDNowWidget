@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.reshefelisha.xkcdnowwidget"
-    android:versionCode="5"
-    android:versionName="1.4" >
+    android:versionCode="6"
+    android:versionName="2.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="19" />
+    <uses-feature android:name="android.software.live_wallpaper" />
 
     <application
         android:allowBackup="true"
@@ -31,6 +32,16 @@
 			</intent-filter>
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_info" />
 		</receiver>
+		
+        <service
+            android:label="@string/now_wallpaper"
+            android:name=".NOWWallpaper"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data android:name="android.service.wallpaper" android:resource="@xml/now_wallpaper" />
+        </service>
     </application>
 
 </manifest>
